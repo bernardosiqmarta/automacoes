@@ -4,15 +4,15 @@ from datetime import datetime
 
 def buscar_cotacoes():
     try:
-        resposta = requests.get("https://economia.awesomeapi.com.br/json/last/USD-BRL,EUR-BRL,BTC-BRL")
+        resposta = requests.get("https://open.er-api.com/v6/latest/USD")
         dados = resposta.json()
 
-        dolar = float(dados["USDBRL"]["bid"])
-        euro = float(dados["EURBRL"]["bid"])
-        bitcoin = float(dados["BTCBRL"]["bid"])
+        dolar_brl = dados["rates"]["BRL"]
+        eur_usd = dados["rates"]["EUR"]
+        brl_eur = 1 / eur_usd * dolar_brl
 
         agora = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-        print(f"{agora} | Dolar: R${dolar:.2f} | Euro: R${euro:.2f} | Bitcoin: R${bitcoin:.2f}")
+        print(f"{agora} | Dolar: R${dolar_brl:.2f} | Euro: R${brl_eur:.2f}")
 
     except Exception as e:
         print(f"Erro: {e}")
@@ -22,4 +22,4 @@ print("="*60)
 
 while True:
     buscar_cotacoes()
-    time.sleep(300)  #a cada 5 minutos
+    time.sleep(300)
