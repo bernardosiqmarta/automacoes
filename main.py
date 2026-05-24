@@ -1,25 +1,13 @@
 import requests
 import time
-from datetime import datetime
 
 def buscar_cotacoes():
     try:
         resposta = requests.get("https://economia.awesomeapi.com.br/json/last/USD-BRL,EUR-BRL,BTC-BRL")
         dados = resposta.json()
-
-        dolar = float(dados["USDBRL"]["bid"])
-        euro = float(dados["EURBRL"]["bid"])
-        bitcoin = float(dados["BTCBRL"]["bid"])
-
-        agora = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-        linha = f"{agora} | Dolar: R${dolar:.2f} | Euro: R${euro:.2f} | Bitcoin: R${bitcoin:.2f}"
-        print(linha)
-
+        print("Resposta da API:", dados)
     except Exception as e:
-        print(f"Erro ao buscar cotacoes: {e}")
-
-print("Monitorando cotacoes...")
-print("="*60)
+        print(f"Erro: {e}")
 
 while True:
     buscar_cotacoes()
